@@ -1,5 +1,6 @@
 import CompanionCard from "@/components/CompanionCard";
 import CompanionsList from "@/components/CompanionsList";
+import CTA from "@/components/CTA";
 import { recentSessions } from "@/constants";
 import React from "react";
 
@@ -7,7 +8,7 @@ const Page = () => {
   return (
     <div>
       Page
-      <section className="flex flex-row gap-4 justify-center items-center w-full p-4 px-16 mx-auto">
+      <section className="flex flex-row gap-4 justify-center  w-full py-6 px-12  mx-auto">
         <CompanionCard
           id="1"
           name="Companion 1"
@@ -33,13 +34,14 @@ const Page = () => {
           color="#BDE7FF"
         />
       </section>
-      <div>
+      <section className="flex gap-4 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center px-12 py-6 ">
         <CompanionsList
           title="Recently completed sessions"
           companions={recentSessions}
-          className="w-2/3 max-lg:w-full"
+          className="w-2/3 max-lg:w-full rounded-lg shadow-lg border-2 border-[#000000]"
         />
-      </div>
+        <CTA />
+      </section>
     </div>
   );
 };

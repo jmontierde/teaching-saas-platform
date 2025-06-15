@@ -19,11 +19,6 @@ const navItems = [
     href: "/companions/new",
     icon: "new-companion-icon", // Replace with actual icon component or class
   },
-  {
-    name: "Sign In",
-    href: "/sign-in",
-    icon: "sign-in-icon", // Replace with actual icon component or class
-  },
 ];
 
 const NavItems = () => {

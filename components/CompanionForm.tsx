@@ -26,6 +26,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { subjects, voices } from "@/constants";
 import { Textarea } from "./ui/textarea";
+import { createCompanion } from "@/lib/actions/companion.actions";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -33,7 +35,7 @@ const formSchema = z.object({
   topic: z.string().min(1, "Topic is required"),
   voice: z.string().min(1, "Voice is required"),
   style: z.string().min(1, "Style is required"),
-  duration: z.string().min(1, "Duration is required"),
+  duration: z.coerce.number().min(1, "Duration must be at least 1"),
 });
 
 const CompanionForm = () => {
@@ -45,13 +47,19 @@ const CompanionForm = () => {
       topic: "",
       voice: "",
       style: "",
-      duration: "",
+      duration: 15,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const companion = await createCompanion(values);
+
+    if (companion) {
+      redirect(`/companions/${companion.id}`);
+    } else {
+      console.log("Error creating companion");
+    }
+  };
 
   return (
     <Form {...form}>
@@ -85,7 +93,7 @@ const CompanionForm = () => {
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select the subject" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     {subjects.map((subject) => (
                       <SelectItem
                         key={subject}
@@ -131,7 +139,7 @@ const CompanionForm = () => {
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select the voice" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     <SelectItem value="male" className="capitalize">
                       Male
                     </SelectItem>
@@ -161,7 +169,7 @@ const CompanionForm = () => {
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select the style" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     <SelectItem value="formal" className="capitalize">
                       Formal
                     </SelectItem>

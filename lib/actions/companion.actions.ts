@@ -18,3 +18,20 @@ export const createCompanion = async (formData: CreateCompanion) => {
 
   return data[0];
 };
+
+export const getCompanion = async () => {
+  const { userId: author } = await auth();
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("companions")
+    .select()
+    .eq("author", author)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(`Error getting companions: ${error.message}`);
+  }
+
+  return data;
+};

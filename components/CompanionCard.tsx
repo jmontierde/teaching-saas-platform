@@ -24,6 +24,7 @@ const CompanionCard = ({
       style={{ backgroundColor: color }}
       className="px-6 py-4 rounded-lg shadow-lg border-2 border-[#000000] flex flex-col gap-4 w-full"
     >
+      hellow
       <div className="flex items-center justify-between rounded-e-lg ">
         <span className="bg-[#151312] text-white px-2 py-1 rounded">
           {subject}

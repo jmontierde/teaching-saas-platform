@@ -19,6 +19,11 @@ const navItems = [
     href: "/companions/new",
     icon: "new-companion-icon", // Replace with actual icon component or class
   },
+  {
+    name: "My Journey",
+    href: "/my-journey",
+    icon: "myjourney", // Replace with actual icon component or class
+  },
 ];
 
 const NavItems = () => {

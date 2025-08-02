@@ -17,7 +17,6 @@ const Page = async () => {
 
   return (
     <div>
-      Page
       <section className="flex flex-row gap-4 justify-center  w-full py-6 px-12  mx-auto">
         {companions.companions.map((companion) => (
           <CompanionCard
@@ -26,14 +25,6 @@ const Page = async () => {
             color={getSubjectColor(companion.subject)}
           />
         ))}
-        <CompanionCard
-          id="1"
-          name="Companion 1"
-          topic="Topic 1"
-          subject="Subject 1"
-          duration={30}
-          color="#E5D0FF"
-        />
       </section>
       <section className="flex gap-4 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center px-12 py-6 ">
         <CompanionsList

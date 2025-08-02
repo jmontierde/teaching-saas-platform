@@ -160,6 +160,8 @@ export const newCompanionPermissions = async () => {
     limit = 10;
   }
 
+  console.log("Companion limit:", limit);
+
   const { data, error } = await supabase
     .from("companions")
     .select("id", { count: "exact" })
@@ -169,6 +171,8 @@ export const newCompanionPermissions = async () => {
 
   const companionCount = data?.length;
 
+  console.log("Companion count:", companionCount);
+
   if (companionCount >= limit) {
     return false;
   } else {
@@ -176,38 +180,34 @@ export const newCompanionPermissions = async () => {
   }
 };
 
-// Bookmarks
 export const addBookmark = async (companionId: string, path: string) => {
   const { userId } = await auth();
-  if (!userId) return;
-  const supabase = createSupabaseClient();
-  const { data, error } = await supabase.from("bookmarks").insert({
-    companion_id: companionId,
-    user_id: userId,
-  });
-  if (error) {
-    throw new Error(error.message);
-  }
-  // Revalidate the path to force a re-render of the page
+  if (!userId) return false;
 
+  const supabase = createSupabaseClient();
+  const { error } = await supabase
+    .from("bookmarks")
+    .insert([{ companion_id: companionId, user_id: userId }]);
+
+  if (error) throw new Error(error.message);
   revalidatePath(path);
-  return data;
+  return true;
 };
 
 export const removeBookmark = async (companionId: string, path: string) => {
   const { userId } = await auth();
-  if (!userId) return;
+  if (!userId) return false;
+
   const supabase = createSupabaseClient();
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("bookmarks")
     .delete()
     .eq("companion_id", companionId)
     .eq("user_id", userId);
-  if (error) {
-    throw new Error(error.message);
-  }
+
+  if (error) throw new Error(error.message);
   revalidatePath(path);
-  return data;
+  return true;
 };
 
 // It's almost the same as getUserCompanions, but it's for the bookmarked companions

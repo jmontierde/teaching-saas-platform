@@ -1,6 +1,9 @@
-import { Clock, Save } from "lucide-react";
+"use client";
+import { useState } from "react";
+import { addBookmark, removeBookmark } from "@/lib/actions/companion.actions";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import React from "react";
+import Image from "next/image";
 
 interface CompanionCardProps {
   id: string;
@@ -9,6 +12,7 @@ interface CompanionCardProps {
   subject: string;
   duration: number;
   color: string;
+  bookmarked: boolean;
 }
 
 const CompanionCard = ({
@@ -18,29 +22,64 @@ const CompanionCard = ({
   subject,
   duration,
   color,
+  bookmarked: initiallyBookmarked,
 }: CompanionCardProps) => {
+  const pathname = usePathname();
+  const [bookmarked, setBookmarked] = useState(initiallyBookmarked);
+  const [loading, setLoading] = useState(false);
+
+  const handleBookmark = async () => {
+    try {
+      setLoading(true);
+      if (bookmarked) {
+        await removeBookmark(id, pathname);
+        setBookmarked(false);
+      } else {
+        await addBookmark(id, pathname);
+        setBookmarked(true);
+      }
+    } catch (err) {
+      console.error("Bookmark error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <article
-      style={{ backgroundColor: color }}
-      className="px-6 py-4 rounded-lg shadow-lg border-2 border-[#000000] flex flex-col gap-4 w-full"
-    >
-      hellow
-      <div className="flex items-center justify-between rounded-e-lg ">
-        <span className="bg-[#151312] text-white px-2 py-1 rounded">
-          {subject}
-        </span>
-        <Save width={20} height={20} />
+    <article className="companion-card" style={{ backgroundColor: color }}>
+      <div className="flex justify-between items-center">
+        <div className="subject-badge">{subject}</div>
+        <button
+          className="companion-bookmark"
+          onClick={handleBookmark}
+          disabled={loading}
+        >
+          <Image
+            src={
+              bookmarked ? "/icons/bookmark-filled.svg" : "/icons/bookmark.svg"
+            }
+            alt="bookmark"
+            width={12.5}
+            height={15}
+          />
+        </button>
       </div>
+
       <h2 className="text-2xl font-bold">{name}</h2>
-      <p className="text-base">Topic: {topic}</p>
-      <p>Subject: {subject}</p>
-      <div className="flex items-center gap-3">
-        <Clock width={18} height={18} />
-        <p>{duration} minutes</p>
+      <p className="text-sm">{topic}</p>
+      <div className="flex items-center gap-2">
+        <Image
+          src="/icons/clock.svg"
+          alt="duration"
+          width={13.5}
+          height={13.5}
+        />
+        <p className="text-sm">{duration} minutes</p>
       </div>
-      <Link href={`/companions/${id}`}>
-        <button className="start-button bg-[#FE5933] text-white rounded-xl px-4 py-2 w-full mt-4 hover:bg-[#FF6A47] transition-colors duration-300">
-          Launch Lesson{" "}
+
+      <Link href={`/companions/${id}`} className="w-full">
+        <button className="btn-primary w-full justify-center">
+          Launch Lesson
         </button>
       </Link>
     </article>

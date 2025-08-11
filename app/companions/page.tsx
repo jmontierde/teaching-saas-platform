@@ -4,6 +4,8 @@ import SubjectFilter from "@/components/SubjectFilter";
 import { getAllCompanion } from "@/lib/actions/companion.actions";
 import { getSubjectColor } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 const CompanionLibrary = async ({ searchParams }: SearchParams) => {
   const filters = await searchParams;
 

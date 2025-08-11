@@ -28,7 +28,6 @@ const SearchInput = () => {
 
   return (
     <div>
-      SearchInput
       <Input
         placeholder="Search..."
         onChange={(e) => setSearch(e.target.value)}

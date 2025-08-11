@@ -7,39 +7,39 @@ const navItems = [
   {
     name: "Home",
     href: "/",
-    icon: "home-icon", // Replace with actual icon component or class
+    icon: "home-icon",
   },
   {
     name: "Companions",
     href: "/companions",
-    icon: "companion-icon", // Replace with actual icon component or class
+    icon: "companion-icon",
   },
   {
     name: "New Companion",
     href: "/companions/new",
-    icon: "new-companion-icon", // Replace with actual icon component or class
+    icon: "new-companion-icon",
   },
   {
     name: "My Journey",
     href: "/my-journey",
-    icon: "myjourney", // Replace with actual icon component or class
+    icon: "myjourney",
   },
 ];
 
 const NavItems = () => {
   const pathname = usePathname();
   return (
-    <div className="flex gap-8 items-center cursor-pointer">
+    <div className="flex gap-3 lg:gap-8 items-center cursor-pointer">
       {navItems.map((item) => (
         <Link
           key={item.name}
           href={item.href}
           className={
-            "flex items-center gap-2" +
+            "flex items-center gap-2 text-xs lg:text-base" +
             (pathname === item.href
-              ? " text-blue-500 font-semibold"
+              ? " text-[#fe5933] font-semibold"
               : " text-gray-700") +
-            " hover:text-blue-500"
+            " hover:text-[#fe5933]"
           }
         >
           {item.name}

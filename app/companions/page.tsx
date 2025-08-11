@@ -20,7 +20,6 @@ const CompanionLibrary = async ({ searchParams }: SearchParams) => {
         <h1>Companion Library</h1>
         <div className="flex gap-4">
           <SearchInput />
-          <SubjectFilter />
         </div>
       </section>
       <section className="grid grid-cols-3 gap-4 max:sm:grid-cols-1">
